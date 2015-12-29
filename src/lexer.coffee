@@ -14,6 +14,24 @@ matchIdentifier = (s) ->
 
   s.tokens.push(result)
 
+matchNumber = (s) ->
+  result = ''
+
+  while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i]) || s.str[s.i] == '.'
+    result += s.str[s.i]
+    s.i += 1
+
+  s.tokens.push(result)
+
+matchOperator = (s) ->
+  result = ''
+
+  while string.isOperator(s.str[s.i])
+    result += s.str[s.i]
+    s.i += 1
+
+  s.tokens.push(result)
+
 lexse = (str) ->
   _.types arguments, ['string']
 
@@ -28,6 +46,10 @@ lexse = (str) ->
       matchSpace(state)
     else if string.isAlpha(c)
       matchIdentifier(state)
+    else if string.isDigit(c)
+      matchNumber(state)
+    else if string.isOperator(c)
+      matchOperator(state)
     else
       throw new Error 'Unknown character ' + c
 
