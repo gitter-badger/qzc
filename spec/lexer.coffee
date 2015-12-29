@@ -20,3 +20,11 @@ describe 'lexse(string)', ->
 
       chai.expect -> lexse 32
         .to.throw(Error)
+
+  describe 'identifiers', ->
+    it 'should to be splited', ->
+      lexse 'one'
+        .should.deep.equal ['one']
+
+      lexse 'one    two    three'
+        .should.deep.equal ['one', 'two', 'three']

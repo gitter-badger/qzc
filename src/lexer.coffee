@@ -1,19 +1,36 @@
-# TODO: Move to utils
-pair = (x, y) -> [x, y]
+_ = require './utils/functional'
+string = require './utils/string'
 
-zip = (xs, ys) -> zipWith pair, xs, ys
+matchSpace = (s) ->
+  while string.isSpace(s.str[s.i])
+    s.i += 1
 
-zipWith = (f, xs, ys) ->
-  min = Math.min xs.length, ys.length
-  [0...min].map (i) -> f xs[i], ys[i]
+matchIdentifier = (s) ->
+  result = ''
 
-types = (as, ts) ->
-  throw new Error 'Bad arguments count' if as.length != ts.length
+  while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i])
+    result += s.str[s.i]
+    s.i += 1
 
-  for [a, t] in zip as, ts
-    throw new Error('Bad argument ' + a) if typeof a != t
+  s.tokens.push(result)
 
 lexse = (str) ->
-  types arguments, ['string']
+  _.types arguments, ['string']
+
+  state =
+    str: str
+    i: 0
+    tokens: []
+
+  while state.i < str.length
+    c = state.str[state.i]
+    if string.isSpace(c)
+      matchSpace(state)
+    else if string.isAlpha(c)
+      matchIdentifier(state)
+    else
+      throw new Error 'Unknown character ' + c
+
+  state.tokens
 
 module.exports = lexse
