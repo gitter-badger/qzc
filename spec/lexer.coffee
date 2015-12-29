@@ -29,6 +29,10 @@ describe 'lexse(string)', ->
       lexse 'one    two    three'
         .should.deep.equal ['one', 'two', 'three']
 
+    it 'should accept underscore', ->
+      lexse '_123_'
+      .should.deep.equal ['_123_']
+
   describe '#numbers', ->
     it 'should to be splited', ->
       lexse '1'

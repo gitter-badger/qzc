@@ -11,7 +11,7 @@ matchSpace = (s) ->
 matchIdentifier = (s) ->
   result = ''
 
-  while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i])
+  while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i]) || s.str[s.i] == '_'
     result += popChar(s)
 
   s.tokens.push(result)
@@ -68,7 +68,7 @@ lexse = (str) ->
     c = state.str[state.i]
     if string.isSpace(c)
       matchSpace(state)
-    else if string.isAlpha(c)
+    else if string.isAlpha(c) || c == '_'
       matchIdentifier(state)
     else if string.isDigit(c)
       matchNumber(state)
