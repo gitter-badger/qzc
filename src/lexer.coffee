@@ -5,6 +5,13 @@ popChar = (s) ->
   throw new Error 'Unexpected file end' if s.i >= s.str.length
   s.str[s.i++]
 
+endContext = (s) ->
+  context = s.contexts[s.contexts.length - 1]
+  if context in '{[('
+    s.tokens.push ','
+  else
+    s.tokens.push ';'
+
 skipChar = (s, c) ->
   popChar s if s.str[s.i] == c
 
@@ -88,6 +95,11 @@ processIndent = (s, mode) ->
   lastToken = s.tokens[s.tokens.length - 1]
   nextToken = s.str[s.i]
 
+  if s.indent > s.last_indent
+    s.contexts.push lastToken
+  else if s.indent < s.last_indent
+    s.contexts.pop()
+
   if s.indent > s.last_indent && lastToken not in '[{('
     delta = s.indent - s.last_indent
     for x in [0...delta]
@@ -96,9 +108,9 @@ processIndent = (s, mode) ->
     delta = s.last_indent - s.indent
     for x in [0...delta]
       s.tokens.push ')'
-    s.tokens.push ';'
-  else if mode not in ['start', 'end'] && lastToken not in '[{('
-    s.tokens.push ';'
+    endContext s
+  else if mode not in ['start', 'end'] && lastToken not in '[{(' && nextToken not in ']})'
+    endContext s
 
 lexse = (str) ->
   _.types arguments, ['string']
@@ -106,6 +118,7 @@ lexse = (str) ->
   str = preprocess str
 
   state =
+    contexts: []
     last_indent: 0
     indent: 0
     str: str

@@ -31,7 +31,7 @@ describe 'lexse(string)', ->
 
     it 'should accept underscore', ->
       lexse '_123_'
-      .should.deep.equal ['_123_', ';']
+        .should.deep.equal ['_123_', ';']
 
   describe '#numbers', ->
     it 'should to be splited', ->
@@ -133,7 +133,7 @@ describe 'lexse(string)', ->
         [
          1, 2, 3
         ]
-      """).should.deep.equal ['[', '1', ',', '2', ',', '3', ';', ']', ';']
+      """).should.deep.equal ['[', '1', ',', '2', ',', '3', ']', ';']
 
       lexse("""
         [
@@ -141,4 +141,70 @@ describe 'lexse(string)', ->
          2
          3
         ]
-      """).should.deep.equal ['[', '1', ';', '2', ';', '3', ';', ']', ';']
+      """).should.deep.equal ['[', '1', ',', '2', ',', '3', ']', ';']
+
+    it '#must work well with arguments', ->
+      lexse("""
+        (1, 2, 3)
+      """).should.deep.equal ['(', '1', ',', '2', ',', '3', ')', ';']
+
+      lexse("""
+        (
+         1, 2, 3
+        )
+      """).should.deep.equal ['(', '1', ',', '2', ',', '3', ')', ';']
+
+      lexse("""
+        (
+         1
+         2
+         3
+        )
+      """).should.deep.equal ['(', '1', ',', '2', ',', '3', ')', ';']
+
+    it '#must work well with mixed indents', ->
+      lexse("""
+        x = (
+          x, y, z
+        ) -> [
+          1
+          2
+          3
+        ]
+      """).should.deep.equal [
+        'x', '=', '(',
+          'x', ',', 'y', ',', 'z',
+        ')', '->', '[',
+          '1', ',', '2', ',', '3',
+        ']', ';'
+      ]
+
+    it '#must work well with multi-nesting', ->
+#      lexse("""
+#        foos = (
+#         x ->
+#          1
+#          2
+#        )
+#      """).should.deep.equal [
+#        'foos', '=', '(',
+#          'x', '->', '(', '1', ';', '2', ')',
+#        ')', ';'
+#      ]
+
+    it '#must work well with mixed indents', ->
+#      lexse("""
+#        foos = (
+#          x ->
+#           1
+#           2
+#          y ->
+#           1
+#           2
+#        )
+#      """).should.deep.equal [
+#        'foos', '=', '(',
+#          'x', '->', '(', '1', ';', '2', ')', ',',
+#          'y', '->', '(', '3', ';', '4', ')',
+#        ')', ';'
+#      ]
