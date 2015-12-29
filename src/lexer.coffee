@@ -85,7 +85,7 @@ preprocess = (str) ->
   str.split('\n').filter((s)-> s.trim().length != 0).join('\n') + '\n'
 
 processIndent = (s, mode) ->
-  s.last_indent = s.indent
+  s.lastIndent = s.indent
   s.indent = 0
 
   while s.str[s.i] in ' \t'
@@ -95,20 +95,23 @@ processIndent = (s, mode) ->
   lastToken = s.tokens[s.tokens.length - 1]
   nextToken = s.str[s.i]
 
-  if s.indent > s.last_indent
-    s.contexts.push lastToken
-  else if s.indent < s.last_indent
-    s.contexts.pop()
+  if s.indent > s.lastIndent
+    delta = s.indent - s.lastIndent
 
-  if s.indent > s.last_indent && lastToken not in '[{('
-    delta = s.indent - s.last_indent
     for x in [0...delta]
-      s.tokens.push '('
-  else if s.indent < s.last_indent && nextToken not in ']})'
-    delta = s.last_indent - s.indent
+      s.contexts.push lastToken
+
+    if lastToken not in '[{('
+      for x in [0...delta]
+        s.tokens.push '('
+  else if s.indent < s.lastIndent
+    delta = s.lastIndent - s.indent
+
     for x in [0...delta]
-      s.tokens.push ')'
-    endContext s
+      context = s.contexts.pop()
+      if context not in '[{('
+        s.tokens.push ')'
+        endContext s
   else if mode not in ['start', 'end'] && lastToken not in '[{(' && nextToken not in ']})'
     endContext s
 
@@ -119,7 +122,7 @@ lexse = (str) ->
 
   state =
     contexts: []
-    last_indent: 0
+    lastIndent: 0
     indent: 0
     str: str
     i: 0

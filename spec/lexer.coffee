@@ -180,31 +180,31 @@ describe 'lexse(string)', ->
       ]
 
     it '#must work well with multi-nesting', ->
-#      lexse("""
-#        foos = (
-#         x ->
-#          1
-#          2
-#        )
-#      """).should.deep.equal [
-#        'foos', '=', '(',
-#          'x', '->', '(', '1', ';', '2', ')',
-#        ')', ';'
-#      ]
+      lexse("""
+        foos = (
+         x ->
+          1
+          2
+        )
+      """).should.deep.equal [
+        'foos', '=', '(',
+          'x', '->', '(', '1', ';', '2', ')', ',',
+        ')', ';'
+      ]
 
     it '#must work well with mixed indents', ->
-#      lexse("""
-#        foos = (
-#          x ->
-#           1
-#           2
-#          y ->
-#           1
-#           2
-#        )
-#      """).should.deep.equal [
-#        'foos', '=', '(',
-#          'x', '->', '(', '1', ';', '2', ')', ',',
-#          'y', '->', '(', '3', ';', '4', ')',
-#        ')', ';'
-#      ]
+      lexse("""
+        foos = (
+          x ->
+           1
+           2
+          y ->
+           3
+           4
+        )
+      """).should.deep.equal [
+        'foos', '=', '(',
+          'x', '->', '(', '1', ';', '2', ')', ',',
+          'y', '->', '(', '3', ';', '4', ')', ',',
+        ')', ';'
+      ]
