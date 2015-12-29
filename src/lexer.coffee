@@ -32,6 +32,12 @@ matchOperator = (s) ->
 
   s.tokens.push(result)
 
+matchBreaker = (s) ->
+  result = s.str[s.i]
+  s.tokens.push(result)
+
+  s.i += 1
+
 lexse = (str) ->
   _.types arguments, ['string']
 
@@ -50,6 +56,8 @@ lexse = (str) ->
       matchNumber(state)
     else if string.isOperator(c)
       matchOperator(state)
+    else if string.isBreaker(c)
+      matchBreaker(state)
     else
       throw new Error 'Unknown character ' + c
 

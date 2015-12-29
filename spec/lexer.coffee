@@ -47,3 +47,15 @@ describe 'lexse(string)', ->
 
       lexse '---   ===   |----> ...'
         .should.deep.equal ['---', '===', '|---->', '...']
+
+  describe '#breakers', ->
+    it 'should to be splited', ->
+      lexse '()'
+        .should.deep.equal ['(', ')']
+
+      lexse '{([])}'
+        .should.deep.equal ['{', '(', '[', ']', ')', '}']
+
+    it 'comma should be a spliter', ->
+      lexse ',,,'
+        .should.deep.equal [',', ',', ',']
