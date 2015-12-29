@@ -91,3 +91,10 @@ describe 'lexse(string)', ->
 
       lexse 'x y z # comment'
         .should.deep.equal ['x', 'y', 'z']
+
+    it '#multiline comments', ->
+      lexse 'x #{ some multiline comment } y'
+        .should.deep.equal ['x', 'y']
+
+      lexse 'x #{ some\n\rmultiline\n\rcomment } y'
+        .should.deep.equal ['x', 'y']
