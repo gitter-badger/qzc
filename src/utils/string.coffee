@@ -7,7 +7,11 @@ isDigit = (c) ->
 isSpace = (c) ->
   c in ' \n\r\t'
 
+isOperator = (c) ->
+  c in '!@$%^&*|/\\+=-.~><'
+
 module.exports =
   isAlpha: isAlpha
   isSpace: isSpace
   isDigit: isDigit
+  isOperator: isOperator

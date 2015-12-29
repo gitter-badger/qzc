@@ -34,3 +34,12 @@ describe 'string', ->
     it 'should be false for non digits', ->
       for c in 'abcdeABCDExyzXYZ!@# \t\r\n'
         string.isDigit(c).should.be.equal false
+
+  describe '#isOperator(char)', ->
+    it 'should be true for operators', ->
+      for c in '!@$%^&*|/\\+=-.~><'
+        string.isOperator(c).should.be.equal true
+
+    it 'should be false for non digits', ->
+      for c in '(){}[]123abc,'
+        string.isOperator(c).should.be.equal false
