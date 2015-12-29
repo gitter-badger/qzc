@@ -59,3 +59,24 @@ describe 'lexse(string)', ->
     it 'comma should be a spliter', ->
       lexse ',,,'
         .should.deep.equal [',', ',', ',']
+
+  describe '#literals', ->
+    it '#strings', ->
+      lexse '"Some string"'
+        .should.deep.equal ['"Some string"']
+
+      lexse '"Some string" "some string"'
+        .should.deep.equal ['"Some string"', '"some string"']
+
+      lexse 'prefixed"Some string"'
+        .should.deep.equal ['prefixed', '"Some string"']
+
+    it '#characters', ->
+      lexse "'some char'"
+        .should.deep.equal ["'some char'"]
+
+      lexse "'a' 'b' 'c'"
+        .should.deep.equal ["'a'", "'b'", "'c'"]
+
+      lexse "prefixed'a'"
+        .should.deep.equal ['prefixed', "'a'"]

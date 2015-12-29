@@ -1,6 +1,9 @@
 _ = require './utils/functional'
 string = require './utils/string'
 
+popChar = (s) ->
+  s.str[s.i++]
+
 matchSpace = (s) ->
   while string.isSpace(s.str[s.i])
     s.i += 1
@@ -9,8 +12,7 @@ matchIdentifier = (s) ->
   result = ''
 
   while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i])
-    result += s.str[s.i]
-    s.i += 1
+    result += popChar(s)
 
   s.tokens.push(result)
 
@@ -18,8 +20,7 @@ matchNumber = (s) ->
   result = ''
 
   while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i]) || s.str[s.i] == '.'
-    result += s.str[s.i]
-    s.i += 1
+    result += popChar(s)
 
   s.tokens.push(result)
 
@@ -27,16 +28,33 @@ matchOperator = (s) ->
   result = ''
 
   while string.isOperator(s.str[s.i])
-    result += s.str[s.i]
-    s.i += 1
+    result += popChar(s)
 
   s.tokens.push(result)
 
 matchBreaker = (s) ->
-  result = s.str[s.i]
+  result = popChar(s)
   s.tokens.push(result)
 
-  s.i += 1
+matchString = (s) ->
+  result = popChar(s)
+
+  while s.str[s.i] != '"'
+    result += popChar(s)
+
+  result += popChar(s)
+
+  s.tokens.push(result)
+
+matchChar = (s) ->
+  result = popChar(s)
+
+  while s.str[s.i] != "'"
+    result += popChar(s)
+
+  result += popChar(s)
+
+  s.tokens.push(result)
 
 lexse = (str) ->
   _.types arguments, ['string']
@@ -58,6 +76,10 @@ lexse = (str) ->
       matchOperator(state)
     else if string.isBreaker(c)
       matchBreaker(state)
+    else if c == '"'
+      matchString(state)
+    else if c == "'"
+      matchChar(state)
     else
       throw new Error 'Unknown character ' + c
 
