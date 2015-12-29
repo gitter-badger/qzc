@@ -101,8 +101,44 @@ describe 'lexse(string)', ->
 
   describe '#indents', ->
     it '#must split one-indent lines', ->
-      console.log lexse("""
+      lexse("""
         x = 1
         y = 2
       """).should.deep.equal ['x', '=', '1', ';', 'y', '=', '2', ';']
-  
+
+    it '#must concat add-indent lines', ->
+      lexse("""
+        x = ->
+         foo
+      """).should.deep.equal ['x', '=', '->', '(', 'foo', ')', ';']
+
+    it '#must work well with multiline definitions', ->
+      lexse("""
+        foo = x ->
+         console.log 'Hello'
+         console.log 'World!'
+      """).should.deep.equal [
+        'foo', '=', 'x', '->', '(',
+          'console', '.', 'log', "'Hello'", ';',
+          'console', '.', 'log', "'World!'",
+        ')', ';'
+      ]
+
+    it '#must work well with arrays', ->
+      lexse("""
+        [1, 2, 3]
+      """).should.deep.equal ['[', '1', ',', '2', ',', '3', ']', ';']
+
+      lexse("""
+        [
+         1, 2, 3
+        ]
+      """).should.deep.equal ['[', '1', ',', '2', ',', '3', ';', ']', ';']
+
+      lexse("""
+        [
+         1
+         2
+         3
+        ]
+      """).should.deep.equal ['[', '1', ';', '2', ';', '3', ';', ']', ';']
