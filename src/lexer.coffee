@@ -11,6 +11,7 @@ skipChar = (s, c) ->
 matchSpace = (s) ->
   while string.isSpace s.str[s.i]
     s.i++
+    processIndent s if s.str[s.i - 1] == '\n'
 
 matchIdentifier = (s) ->
   result = ''
@@ -68,21 +69,53 @@ matchComment = (s) ->
   else
     '\r\n'
 
-  while s.i < s.str.length && !(s.str[s.i] in end)
+  while s.i < s.str.length && s.str[s.i] not in end
     popChar s
 
   skipChar s, '}' if end == '}'
 
+preprocess = (str) ->
+  str.split('\n').filter((s)-> s.trim().length != 0).join('\n') + '\n'
+
+processIndent = (s, mode) ->
+  s.last_indent = s.indent
+  s.indent = 0
+
+  while s.str[s.i] in ' \t'
+    s.indent++
+    s.i++
+
+  lastToken = s.tokens[s.tokens.length - 1]
+  nextToken = s.str[s.i]
+
+  if s.indent > s.last_indent && lastToken not in '[{('
+    delta = s.indent - s.last_indent
+    for x in [0...delta]
+      s.tokens.push '('
+  else if s.indent < s.last_indent && nextToken not in ']})'
+    delta = s.last_indent - s.indent
+    for x in [0...delta]
+      s.tokens.push ')'
+    s.tokens.push ';'
+  else if mode not in ['start', 'end'] && lastToken not in '[{('
+    s.tokens.push ';'
+
 lexse = (str) ->
   _.types arguments, ['string']
 
+  str = preprocess str
+
   state =
+    last_indent: 0
+    indent: 0
     str: str
     i: 0
     tokens: []
 
+  processIndent state, 'start'
   while state.i < str.length
     c = state.str[state.i]
+
     if string.isSpace c
       matchSpace state
     else if string.isAlpha(c) || c == '_'
