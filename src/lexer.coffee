@@ -2,6 +2,7 @@ _ = require './utils/functional'
 string = require './utils/string'
 
 popChar = (s) ->
+  throw new Error 'Unexpected file end' if s.i >= s.str.length
   s.str[s.i++]
 
 matchSpace = (s) ->
@@ -56,6 +57,10 @@ matchChar = (s) ->
 
   s.tokens.push(result)
 
+matchLineComment = (s) ->
+  while s.i < s.str.length && s.str[s.i] != '\n' && s.str[s.i] != "\r"
+    popChar(s)
+
 lexse = (str) ->
   _.types arguments, ['string']
 
@@ -80,6 +85,8 @@ lexse = (str) ->
       matchString(state)
     else if c == "'"
       matchChar(state)
+    else if c == "#"
+      matchLineComment(state)
     else
       throw new Error 'Unknown character ' + c
 

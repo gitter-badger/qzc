@@ -84,3 +84,10 @@ describe 'lexse(string)', ->
 
       lexse "prefixed'a'"
         .should.deep.equal ['prefixed', "'a'"]
+
+    it '#comments', ->
+      lexse '# some oneline comment'
+        .should.deep.equal []
+
+      lexse 'x y z # comment'
+        .should.deep.equal ['x', 'y', 'z']
