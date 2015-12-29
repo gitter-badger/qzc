@@ -10,8 +10,12 @@ isSpace = (c) ->
 isOperator = (c) ->
   c in '!@$%^&*|/\\+=-.~><'
 
+isBreaker = (c) ->
+  c in ',()[]{}'
+
 module.exports =
   isAlpha: isAlpha
   isSpace: isSpace
   isDigit: isDigit
   isOperator: isOperator
+  isBreaker: isBreaker

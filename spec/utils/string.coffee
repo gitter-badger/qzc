@@ -43,3 +43,12 @@ describe 'string', ->
     it 'should be false for non digits', ->
       for c in '(){}[]123abc,'
         string.isOperator(c).should.be.equal false
+
+  describe '#isBreaker(char)', ->
+    it 'should be true for operators', ->
+      for c in '(){}[],'
+        string.isBreaker(c).should.be.equal true
+
+    it 'should be false for non digits', ->
+      for c in '!@$%^&*|/\\+=-.~><123abc'
+        string.isBreaker(c).should.be.equal false
