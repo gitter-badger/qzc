@@ -37,18 +37,18 @@ describe 'string', ->
 
   describe '#isOperator(char)', ->
     it 'should be true for operators', ->
-      for c in '!@$%^&*|/\\+=-.~><'
+      for c in '!@$%^&*|/\\+=-.~><:?'
         string.isOperator(c).should.be.equal true
 
     it 'should be false for non digits', ->
-      for c in '(){}[]123abc,'
+      for c in '(){}[]123abc,;'
         string.isOperator(c).should.be.equal false
 
   describe '#isBreaker(char)', ->
     it 'should be true for operators', ->
-      for c in '(){}[],'
+      for c in '(){}[],;'
         string.isBreaker(c).should.be.equal true
 
     it 'should be false for non digits', ->
-      for c in '!@$%^&*|/\\+=-.~><123abc'
+      for c in '!@$%^&*|/\\+=-.~><123abc:?'
         string.isBreaker(c).should.be.equal false

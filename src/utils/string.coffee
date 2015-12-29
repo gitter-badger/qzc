@@ -8,10 +8,10 @@ isSpace = (c) ->
   c in ' \n\r\t'
 
 isOperator = (c) ->
-  c in '!@$%^&*|/\\+=-.~><'
+  c in '!@$%^&*|/\\+=-.~><:?'
 
 isBreaker = (c) ->
-  c in ',()[]{}'
+  c in ',;()[]{}'
 
 module.exports =
   isAlpha: isAlpha
