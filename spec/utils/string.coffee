@@ -25,3 +25,12 @@ describe 'string', ->
     it 'should be false for non whitespaces', ->
       for c in 'abcdeABCDExyzXYZ123!@#'
         string.isSpace(c).should.be.equal false
+
+  describe '#isDigit(char)', ->
+    it 'should be true for digits', ->
+      for c in '0123456789'
+        string.isDigit(c).should.be.equal true
+
+    it 'should be false for non digits', ->
+      for c in 'abcdeABCDExyzXYZ!@# \t\r\n'
+        string.isDigit(c).should.be.equal false
