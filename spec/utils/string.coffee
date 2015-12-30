@@ -58,6 +58,30 @@ describe 'string', ->
       for n in ['0', '1', '15', '50.1', '12.121', '12321.']
         string.isNumber(n).should.be.equal true
 
-    it 'should be true for bad integer and real numbers', ->
-      for n in ['0d', '50..1', '12.12.1', '.12321']
+    it 'should be false for bad integer and real numbers', ->
+      for n in ['', 'a', '0d', '50..1', '12.12.1', '.12321']
+        string.isNumber(n).should.be.equal false
+
+    it 'should be true for hexademical', ->
+      for n in ['0x0', '0xAB0', '0xef2']
+        string.isNumber(n).should.be.equal true
+
+    it 'should be false for bad hexademical', ->
+      for n in ['0x', '0xxx']
+        string.isNumber(n).should.be.equal false
+
+    it 'should be true for oct', ->
+      for n in ['0o0', '0o76543210']
+        string.isNumber(n).should.be.equal true
+
+    it 'should be false for bad oct', ->
+      for n in ['0o', '0o8', '0oa']
+        string.isNumber(n).should.be.equal false
+
+    it 'should be true for bin', ->
+      for n in ['0b0', '0b01010101']
+        string.isNumber(n).should.be.equal true
+
+    it 'should be false for bad bin', ->
+      for n in ['0b', '0b2', '0bB']
         string.isNumber(n).should.be.equal false

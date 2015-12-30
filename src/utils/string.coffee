@@ -13,7 +13,7 @@ isOperator = (c) ->
 isBreaker = (c) ->
   c in ',;()[]{}'
 
-isNumber = (str) ->
+isDecimal = (str) ->
   point = str.indexOf '.'
   return false if point == 0
   return false if str.indexOf('.', point + 1) != -1
@@ -23,6 +23,43 @@ isNumber = (str) ->
     return false unless isDigit c
 
   true
+
+isHex = (str) ->
+  return false if str.length == 0
+
+  for c in str
+    return false unless isDigit(c) || c in 'abcdefABCDEF'
+
+  true
+
+isOct = (str) ->
+  return false if str.length == 0
+
+  for c in str
+    return false unless c in '01234567'
+
+  true
+
+isBin = (str) ->
+  return false if str.length == 0
+
+  for c in str
+    return false unless c in '01'
+
+  true
+
+isNumber = (str) ->
+  return false if str.length == 0
+  prefix = str.slice 0, 2
+
+  if prefix == '0x'
+    isHex str.slice 2
+  else if prefix == '0o'
+    isOct str.slice 2
+  else if prefix == '0b'
+    isBin str.slice 2
+  else
+    isDecimal str
 
 module.exports =
   isAlpha: isAlpha
