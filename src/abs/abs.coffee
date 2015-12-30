@@ -6,9 +6,8 @@ class Integer
 Integer.fromDecimal = (str) ->
   val = 0
   for c in str
+    val = val * 10 + (+c)
     throw new Error 'Invalid decimal charater ' + c unless string.isDigit(c)
-    val *= 10
-    val += +c
 
   new Integer val
 
