@@ -2,6 +2,7 @@ chai = require 'chai'
 chai.should()
 
 parse = require '../src/parser'
+abs = require '../src/abs/abs'
 
 describe 'parse(string)', ->
   describe '#basics', ->
@@ -9,7 +10,7 @@ describe 'parse(string)', ->
       parse.should.to.be.a 'function'
 
     it 'should get one string argument', ->
-      chai.expect -> parse ''
+      chai.expect -> parse '1'
         .to.not.throw(Error)
 
       chai.expect -> parse()
@@ -20,3 +21,13 @@ describe 'parse(string)', ->
 
       chai.expect -> parse 32
         .to.throw(Error)
+
+  describe '#literals', ->
+    describe '#numbers', ->
+      describe '#integers', ->
+        it 'should parse correct integers', ->
+          for i in ['150', '1000', '6127321637238216', '0']
+            val = parse i
+            val.should.be.deep.equal new abs.Integer.fromDecimal i
+            val.should.be.not.deep.equal new abs.Integer 666
+            val.value.should.be.equal parseInt i
