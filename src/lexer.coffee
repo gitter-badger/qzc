@@ -109,6 +109,8 @@ processIndent = (s, mode) ->
 
     for x in [0...delta]
       context = s.contexts.pop()
+      s.tokens.pop() if s.tokens[s.tokens.length - 1] in ',;'
+
       if context not in '[{('
         s.tokens.push ')'
         endContext s
