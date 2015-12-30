@@ -52,3 +52,12 @@ describe 'string', ->
     it 'should be false for non digits', ->
       for c in '!@$%^&*|/\\+=-.~><123abc:?'
         string.isBreaker(c).should.be.equal false
+
+  describe '#isNumber(str)', ->
+    it 'should be true for decimal integer and real numbers', ->
+      for n in ['0', '1', '15', '50.1', '12.121', '12321.']
+        string.isNumber(n).should.be.equal true
+
+    it 'should be true for bad integer and real numbers', ->
+      for n in ['0d', '50..1', '12.12.1', '.12321']
+        string.isNumber(n).should.be.equal false
