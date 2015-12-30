@@ -46,6 +46,6 @@ describe 'parse(string)', ->
             val.value.should.be.equal parseFloat d
 
         it 'should throw error on incorrect real numbers', ->
-          for d in ['150.d', '12..2', '15.1.2', '123d.123']
+          for d in ['150.d', '.12.2', '15.1.2', '123d.123']
             chai.expect -> parse d
               .to.throw Error

@@ -17,6 +17,7 @@ class Real
 Real.fromDecimal = (str) ->
   point = str.indexOf '.'
   throw new Error 'Multiple points in real literal' if str.indexOf('.', point + 1) != -1
+  throw new Error 'Bad real number' if point == 0
 
   val = 0
   for c in str
