@@ -44,6 +44,13 @@ describe 'lexse(string)', ->
       lexse '111.0    222.0f    0xFF'
         .should.deep.equal ['111.0', '222.0f', '0xFF', ';']
 
+    it 'should split dot operators', ->
+      lexse '1..2'
+        .should.deep.equal ['1', '..', '2', ';']
+
+      lexse '1...2'
+        .should.deep.equal ['1', '...', '2', ';']
+
   describe '#operators', ->
     it 'should to be splited', ->
       lexse '+='

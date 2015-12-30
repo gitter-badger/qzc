@@ -32,6 +32,11 @@ matchNumber = (s) ->
   result = ''
 
   while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i]) || s.str[s.i] == '.'
+    if (s.str[s.i] == '.') && (s.str[s.i - 1] == '.')
+      s.i -= 1
+      result = result.slice(0, result.length - 1)
+      break
+
     result += popChar s
 
   s.tokens.push result
