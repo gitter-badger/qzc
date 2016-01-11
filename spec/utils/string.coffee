@@ -92,3 +92,12 @@ describe 'string', ->
 
     it 'should return indexes if there are some elements', ->
       string.findAll('#', '#123#567#').should.be.deep.equal [0, 4, 8]
+
+  describe '#isString(str)', ->
+    it 'should return true for valid strings', ->
+      string.isString('"valid string"').should.be.equal true
+
+    it 'should return false for invalid strings', ->
+      string.isString('invalid string"').should.be.equal false
+      string.isString('"invalid string').should.be.equal false
+      string.isString('"invalid " string"').should.be.equal false

@@ -1,3 +1,5 @@
+_ = require './functional'
+
 findAll = (c, str) ->
   result = []
   for e, i in str
@@ -69,6 +71,12 @@ isNumber = (str) ->
   else
     isDecimal str
 
+isString = (str) ->
+  return false if str.length < 2
+  indexes = findAll '"', str
+
+  _.deep indexes, [0, str.length - 1]
+
 module.exports =
   findAll: findAll
   isAlpha: isAlpha
@@ -77,3 +85,4 @@ module.exports =
   isOperator: isOperator
   isBreaker: isBreaker
   isNumber: isNumber
+  isString: isString
