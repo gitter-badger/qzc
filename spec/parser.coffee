@@ -88,3 +88,14 @@ describe 'parse(string)', ->
           for b in ['0b', '0b2', '0bX']
             chai.expect -> parse b
               .to.throw Error
+
+      describe '#strings', ->
+        it 'should parse correct strings', ->
+          for s in ['"correct string"', '"another string"']
+            val = parse s
+            val.should.be.deep.equal new abs.String s
+
+        it 'should thows error on incorrect strings', ->
+          for s in ['"unclosed string', 'unopened string"', '"string with " extra quote"']
+            chai.expect -> parse s
+              .to.throw Error

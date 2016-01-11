@@ -84,7 +84,11 @@ Number.parse = (str) ->
   else
     Number.fromDecimal str
 
+class String
+  constructor: (@value) ->
+
 module.exports =
   Integer: Integer
   Real: Real
   Number: Number
+  String: String

@@ -8,7 +8,9 @@ parse = (str) ->
   lexems = lexse str
 
   if string.isNumber lexems[0]
-    return new abs.Number.parse lexems[0]
+    abs.Number.parse lexems[0]
+  else if string.isString lexems[0]
+    new abs.String lexems[0]
   else
     throw new Error 'Unknown lexem, expected Number'
 
