@@ -28,7 +28,7 @@ describe 'parse(string)', ->
         it 'should parse correct integers', ->
           for i in ['150', '1000', '6127321637238216', '0']
             val = parse i
-            val.should.be.deep.equal new abs.Integer.fromDecimal i
+            val.should.be.deep.equal abs.Integer.fromDecimal i
             val.should.be.not.deep.equal new abs.Integer 666
             val.value.should.be.equal parseInt i
 
@@ -41,7 +41,7 @@ describe 'parse(string)', ->
         it 'should parse correct real numbers', ->
           for d in ['12.1', '5.2', '3.333', '0.1', '12.']
             val = parse d
-            val.should.be.deep.equal new abs.Real.fromDecimal d
+            val.should.be.deep.equal abs.Real.fromDecimal d
             val.should.be.not.deep.equal new abs.Real 12.2
             val.value.should.be.equal parseFloat d
 
@@ -54,7 +54,7 @@ describe 'parse(string)', ->
         it 'should parse correct hex', ->
           for h in ['0xff', '0x123', '0x321', '0x543534']
             val = parse h
-            val.should.be.deep.equal new abs.Number.parse h
+            val.should.be.deep.equal abs.Number.parse h
             val.should.be.not.deep.equal new abs.Integer 666
             val.value.should.be.equal parseInt (h.slice 2), 16
 
@@ -67,7 +67,7 @@ describe 'parse(string)', ->
         it 'should parse correct oct', ->
           for o in ['0o0', '0o777', '0o1234', '0o01234567']
             val = parse o
-            val.should.be.deep.equal new abs.Number.parse o
+            val.should.be.deep.equal abs.Number.parse o
             val.should.be.not.deep.equal new abs.Integer 666
             val.value.should.be.equal parseInt (o.slice 2), 8
 
@@ -80,7 +80,7 @@ describe 'parse(string)', ->
         it 'should parse correct bin', ->
           for b in ['0b0', '0b01010101']
             val = parse b
-            val.should.be.deep.equal new abs.Number.parse b
+            val.should.be.deep.equal abs.Number.parse b
             val.should.be.not.deep.equal new abs.Integer 666
             val.value.should.be.equal parseInt (b.slice 2), 2
 
