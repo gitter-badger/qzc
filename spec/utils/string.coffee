@@ -101,3 +101,12 @@ describe 'string', ->
       string.isString('invalid string"').should.be.equal false
       string.isString('"invalid string').should.be.equal false
       string.isString('"invalid " string"').should.be.equal false
+
+  describe '#isCharacter(str)', ->
+    it 'should return true for valid characters', ->
+      string.isCharacter("'v'").should.be.equal true
+
+    it 'should return false for invalid characters', ->
+      string.isCharacter("'unclos").should.be.equal false
+      string.isCharacter("unop'").should.be.equal false
+      string.isCharacter("ex'ra").should.be.equal false

@@ -77,6 +77,12 @@ isString = (str) ->
 
   _.deep indexes, [0, str.length - 1]
 
+isCharacter = (str) ->
+  return false if str.length < 2
+  indexes = findAll "'", str
+
+  _.deep indexes, [0, str.length - 1]
+
 module.exports =
   findAll: findAll
   isAlpha: isAlpha
@@ -86,3 +92,4 @@ module.exports =
   isBreaker: isBreaker
   isNumber: isNumber
   isString: isString
+  isCharacter: isCharacter

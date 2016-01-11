@@ -99,3 +99,14 @@ describe 'parse(string)', ->
           for s in ['"unclosed string', 'unopened string"', '"string with " extra quote"']
             chai.expect -> parse s
               .to.throw Error
+
+      describe '#characters', ->
+        it 'should parse correct characters', ->
+          for c in ["'c'", "'correct'"]
+            val = parse c
+            val.should.be.deep.equal new abs.Character c
+
+        it 'should thows error on incorrect characters', ->
+          for c in ["'unc", "unop'", "'ex'ra'"]
+            chai.expect -> parse c
+              .to.throw Error

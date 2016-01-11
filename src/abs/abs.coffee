@@ -87,8 +87,12 @@ Number.parse = (str) ->
 class String
   constructor: (@value) ->
 
+class Character
+  constructor: (@value) ->
+
 module.exports =
   Integer: Integer
   Real: Real
   Number: Number
   String: String
+  Character: Character
