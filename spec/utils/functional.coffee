@@ -77,3 +77,17 @@ describe 'functional', ->
 
       chai.expect -> _.types ['str', 1, -> null], ['string', 'function', 'number']
         .to.throw(Error)
+
+  describe '#deep', ->
+    it 'should return true on same objects', ->
+      _.deep([1, 2, 3], [1, 2, 3]).should.be.equal true
+      _.deep({x: 1, y: 2}, {x: 1, y: 2}).should.be.equal true
+
+    it 'should return false on different objects', ->
+      _.deep([1, 2, 3], [1, 2, 4]).should.be.equal false
+      _.deep({x: 1, y: 2}, {x: 1, y: 3}).should.be.equal false
+      _.deep({x: 1, y: 2}, {x: 1, z: 2}).should.be.equal false
+
+    it 'should return false on different sub-objects', ->
+      _.deep([{}, {}, {}], [{}, {}, {}]).should.be.equal true
+      _.deep({x: [1,2,3], y: [2,3,4]}, {x: [1,2,3], y: [2,3,4]})
