@@ -85,3 +85,10 @@ describe 'string', ->
     it 'should be false for bad bin', ->
       for n in ['0b', '0b2', '0bB']
         string.isNumber(n).should.be.equal false
+
+  describe '#findAll(str)', ->
+    it 'should return empty array if there no elements', ->
+      string.findAll('#', '123456asd').should.be.deep.equal []
+
+    it 'should return indexes if there are some elements', ->
+      string.findAll('#', '#123#567#').should.be.deep.equal [0, 4, 8]

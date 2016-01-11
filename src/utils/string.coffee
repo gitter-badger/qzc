@@ -1,3 +1,11 @@
+findAll = (c, str) ->
+  result = []
+  for e, i in str
+    if e == c
+      result.push i
+
+  result
+
 isAlpha = (c) ->
   'a' <= c && c <= 'z' || 'A' <= c && c <= 'Z'
 
@@ -62,6 +70,7 @@ isNumber = (str) ->
     isDecimal str
 
 module.exports =
+  findAll: findAll
   isAlpha: isAlpha
   isSpace: isSpace
   isDigit: isDigit
