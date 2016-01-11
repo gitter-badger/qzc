@@ -100,6 +100,9 @@ describe 'parse(string)', ->
             chai.expect -> parse s
               .to.throw Error
 
+        it 'value should be unqouted', ->
+          parse('"string"').value.should.be.equal 'string'
+
       describe '#characters', ->
         it 'should parse correct characters', ->
           for c in ["'c'", "'correct'"]
@@ -110,3 +113,6 @@ describe 'parse(string)', ->
           for c in ["'unc", "unop'", "'ex'ra'"]
             chai.expect -> parse c
               .to.throw Error
+
+        it 'value should be unqouted', ->
+          parse("'c'").value.should.be.equal 'c'

@@ -85,10 +85,14 @@ Number.parse = (str) ->
     Number.fromDecimal str
 
 class String
-  constructor: (@value) ->
+  constructor: (value) ->
+     [_, middle..., _] = value
+     @value = middle.join('')
 
 class Character
-  constructor: (@value) ->
+  constructor: (value) ->
+     [_, middle..., _] = value
+     @value = middle.join('')
 
 module.exports =
   Integer: Integer
