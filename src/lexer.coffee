@@ -23,7 +23,7 @@ matchSpace = (s) ->
 matchIdentifier = (s) ->
   result = ''
 
-  while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i]) || s.str[s.i] == '_'
+  while string.isIndentPart(s.str[s.i])
     result += popChar s
 
   s.tokens.push result
@@ -31,7 +31,7 @@ matchIdentifier = (s) ->
 matchNumber = (s) ->
   result = ''
 
-  while string.isAlpha(s.str[s.i]) || string.isDigit(s.str[s.i]) || s.str[s.i] == '.'
+  while string.isNumberPart(s.str[s.i])
     if (s.str[s.i] == '.') && (s.str[s.i - 1] == '.')
       s.i -= 1
       result = result.slice(0, result.length - 1)
@@ -119,7 +119,11 @@ processIndent = (s, mode) ->
       if context not in '[{('
         s.tokens.push ')'
         endContext s
-  else if mode not in ['start', 'end'] && lastToken not in '[{(' && nextToken not in ']})'
+  else
+    return if mode in ['start', 'end']
+    return if lastToken in '[{('
+    return if nextToken in ']})'
+
     endContext s
 
 lexse = (str) ->

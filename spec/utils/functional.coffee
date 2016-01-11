@@ -54,8 +54,9 @@ describe 'functional', ->
 
   describe '#types', ->
     it 'should pass if types equal', ->
-      chai.expect -> _.types ['str', 1, -> null], ['string', 'number', 'function']
-        .to.not.throw(Error)
+      chai.expect(->
+        _.types ['str', 1, -> null], ['string', 'number', 'function']
+      ).to.not.throw(Error)
 
     it 'should not pass if types count not equal', ->
       chai.expect -> _.types ['str', 1], ['string', 'number', 'function']
@@ -65,18 +66,21 @@ describe 'functional', ->
         .to.throw(Error)
 
     it 'should not pass if types not equal', ->
-      chai.expect -> _.types ['str', 1, -> null], ['number', 'number', 'function']
-        .to.throw(Error)
+      chai.expect(->
+        _.types ['str', 1, -> null], ['number', 'number', 'function']
+      ).to.throw(Error)
 
       chai.expect -> _.types ['str', 1, -> null], ['string', 'number', 'number']
         .to.throw(Error)
 
     it 'should not pass if arguments order wrong', ->
-      chai.expect -> _.types ['str', 1, -> null], ['number', 'string', 'function']
-        .to.throw(Error)
+      chai.expect(->
+        _.types ['str', 1, -> null], ['number', 'string', 'function']
+      ).to.throw(Error)
 
-      chai.expect -> _.types ['str', 1, -> null], ['string', 'function', 'number']
-        .to.throw(Error)
+      chai.expect(->
+        _.types ['str', 1, -> null], ['string', 'function', 'number']
+      ).to.throw(Error)
 
   describe '#deep', ->
     it 'should return true on same objects', ->

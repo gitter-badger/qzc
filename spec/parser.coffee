@@ -96,7 +96,7 @@ describe 'parse(string)', ->
             val.should.be.deep.equal new abs.String s
 
         it 'should thows error on incorrect strings', ->
-          for s in ['"unclosed string', 'unopened string"', '"string with " extra quote"']
+          for s in ['"unclosed string', 'unopened string"', '"extra " quote"']
             chai.expect -> parse s
               .to.throw Error
 

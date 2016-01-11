@@ -25,7 +25,8 @@ Integer.fromHex = (str) ->
   val = 0
   for c in str
     val = val * 16 + digitToNumber c
-    throw new Error 'Invalid hex charater ' + c unless c in '0123456789abcdefABCDEF'
+    unless c in '0123456789abcdefABCDEF'
+      throw new Error 'Invalid hex charater ' + c
 
   new Integer val
 
@@ -50,7 +51,8 @@ class Real
 
 Real.fromDecimal = (str) ->
   point = str.indexOf '.'
-  throw new Error 'Multiple points in real literal' if str.indexOf('.', point + 1) != -1
+  next = str.indexOf('.', point + 1)
+  throw new Error 'Multiple points in real literal' if next != -1
   throw new Error 'Bad real number' if point == 0
 
   val = 0
@@ -86,13 +88,13 @@ Number.parse = (str) ->
 
 class String
   constructor: (value) ->
-     [_, middle..., _] = value
-     @value = middle.join('')
+    [_, middle..., _] = value
+    @value = middle.join('')
 
 class Character
   constructor: (value) ->
-     [_, middle..., _] = value
-     @value = middle.join('')
+    [_, middle..., _] = value
+    @value = middle.join('')
 
 module.exports =
   Integer: Integer

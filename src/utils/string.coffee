@@ -23,6 +23,18 @@ isOperator = (c) ->
 isBreaker = (c) ->
   c in ',;()[]{}'
 
+isUnderscore = (c) ->
+  c == '_'
+
+isDot = (c) ->
+  c == '.'
+
+isIndentPart = (c) ->
+  isAlpha(c) || isDigit(c) || isUnderscore(c)
+
+isNumberPart = (c) ->
+  isAlpha(c) || isDigit(c) || isDot(c)
+
 isDecimal = (str) ->
   point = str.indexOf '.'
   return false if point == 0
@@ -90,6 +102,8 @@ module.exports =
   isDigit: isDigit
   isOperator: isOperator
   isBreaker: isBreaker
+  isIndentPart: isIndentPart
+  isNumberPart: isNumberPart
   isNumber: isNumber
   isString: isString
   isCharacter: isCharacter
