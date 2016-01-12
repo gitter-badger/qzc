@@ -94,6 +94,7 @@ describe 'parse(string)', ->
           for s in ['"correct string"', '"another string"']
             val = parse s
             val.should.be.deep.equal new abs.String s
+            val.value.should.be.deep.equal s.slice(1, s.length - 1)
 
         it 'should thows error on incorrect strings', ->
           for s in ['"unclosed string', 'unopened string"', '"extra " quote"']
@@ -108,6 +109,7 @@ describe 'parse(string)', ->
           for c in ["'c'", "'correct'"]
             val = parse c
             val.should.be.deep.equal new abs.Character c
+            val.value.should.be.deep.equal c.slice(1, c.length - 1)
 
         it 'should thows error on incorrect characters', ->
           for c in ["'unc", "unop'", "'ex'ra'"]
