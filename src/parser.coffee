@@ -3,17 +3,34 @@ string = require './utils/string'
 lexse = require './lexer'
 abs = require './abs/abs'
 
-parse = (str) ->
-  _.types arguments, ['string']
-  lexems = lexse str
+next = (state) ->
+  state.lexems[state.i++]
 
-  if string.isNumber lexems[0]
-    abs.Number.parse lexems[0]
-  else if string.isString lexems[0]
-    new abs.String lexems[0]
-  else if string.isCharacter lexems[0]
-    new abs.Character lexems[0]
+get = (state) ->
+  state.lexems[state.i]
+
+literal = (state) ->
+  now = next state
+
+  if string.isNumber now
+    abs.Number.parse now
+  else if string.isString now
+    new abs.String now
+  else if string.isCharacter now
+    new abs.Character now
   else
     throw new Error 'Unknown lexem, expected Number'
+
+expression = (state) ->
+  literal state
+
+parse = (str) ->
+  _.types arguments, ['string']
+
+  state =
+    lexems: lexse str
+    i: 0
+
+  expression state
 
 module.exports = parse
