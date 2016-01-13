@@ -21,8 +21,19 @@ literal = (state) ->
   else
     throw new Error 'Unknown lexem, expected Number'
 
+polynom = (state) ->
+  result = literal state
+
+  while (get state) in '+-'
+    op = next state
+    second = literal state
+
+    result = new abs.BinaryOperator op, result, second
+
+  result
+
 expression = (state) ->
-  literal state
+  polynom state
 
 parse = (str) ->
   _.types arguments, ['string']

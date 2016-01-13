@@ -118,3 +118,28 @@ describe 'parse(string)', ->
 
         it 'value should be unqouted', ->
           parse("'c'").value.should.be.equal 'c'
+
+
+    describe '#expressions', ->
+      describe '#polynoms', ->
+        it 'must parse plus and minus as operators', ->
+          (parse '1 + 2').should.be.deep.equal new abs.BinaryOperator(
+            '+', (abs.Number.parse '1'), (abs.Number.parse '2')
+          )
+
+          (parse '15 - 2.2').should.be.deep.equal new abs.BinaryOperator(
+            '-', (abs.Number.parse '15'), (abs.Number.parse '2.2')
+          )
+
+        it 'plus and minus must be left-associative', ->
+          (parse '1 + 2 + 3').should.be.deep.equal new abs.BinaryOperator(
+            '+', new abs.BinaryOperator(
+              '+', (abs.Number.parse '1'), (abs.Number.parse '2')
+            ), (abs.Number.parse '3')
+          )
+
+          (parse '3 - 2 - 1').should.be.deep.equal new abs.BinaryOperator(
+            '-', new abs.BinaryOperator(
+              '-', (abs.Number.parse '3'), (abs.Number.parse '2')
+            ), (abs.Number.parse '1')
+          )

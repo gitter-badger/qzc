@@ -96,9 +96,13 @@ class Character
     [_, middle..., _] = value
     @value = middle.join('')
 
+class BinaryOperator
+  constructor: (@value, @first, @second) ->
+
 module.exports =
   Integer: Integer
   Real: Real
   Number: Number
   String: String
   Character: Character
+  BinaryOperator: BinaryOperator
