@@ -97,7 +97,10 @@ class Character
     @value = middle.join('')
 
 class BinaryOperator
-  constructor: (@value, @first, @second) ->
+  constructor: (@op, @first, @second) ->
+
+class UnaryOperator
+  constructor: (@op, @argument) ->
 
 module.exports =
   Integer: Integer
@@ -106,3 +109,4 @@ module.exports =
   String: String
   Character: Character
   BinaryOperator: BinaryOperator
+  UnaryOperator: UnaryOperator

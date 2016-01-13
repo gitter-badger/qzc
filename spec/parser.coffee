@@ -143,3 +143,38 @@ describe 'parse(string)', ->
               '-', (abs.Number.parse '3'), (abs.Number.parse '2')
             ), (abs.Number.parse '1')
           )
+
+        it 'must accept unary plus/minus', ->
+          (parse '-1').should.be.deep.equal new abs.UnaryOperator(
+            '-', (abs.Number.parse '1')
+          )
+
+          (parse '+1').should.be.deep.equal(abs.Number.parse '1')
+
+      describe '#terms', ->
+        it 'must parse */% as operators', ->
+          (parse '1 * 2').should.be.deep.equal new abs.BinaryOperator(
+            '*', (abs.Number.parse '1'), (abs.Number.parse '2')
+          )
+
+          (parse '1 / 2').should.be.deep.equal new abs.BinaryOperator(
+            '/', (abs.Number.parse '1'), (abs.Number.parse '2')
+          )
+
+          (parse '1 % 2').should.be.deep.equal new abs.BinaryOperator(
+            '%', (abs.Number.parse '1'), (abs.Number.parse '2')
+          )
+
+        it 'must be part of polynom', ->
+          (parse '1 + 2 * 3').should.be.deep.equal new abs.BinaryOperator(
+            '+', (abs.Number.parse '1'), new abs.BinaryOperator(
+              '*', (abs.Number.parse '2'), (abs.Number.parse '3')
+            )
+          )
+
+        it 'must be left-associative', ->
+          (parse '1 / 2 * 3').should.be.deep.equal new abs.BinaryOperator(
+            '*', new abs.BinaryOperator(
+              '/', (abs.Number.parse '1'), (abs.Number.parse '2')
+            ), (abs.Number.parse '3')
+          )

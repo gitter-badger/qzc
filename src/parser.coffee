@@ -21,12 +21,31 @@ literal = (state) ->
   else
     throw new Error 'Unknown lexem, expected Number'
 
-polynom = (state) ->
+term = (state) ->
   result = literal state
+
+  while (get state) in '*/%'
+    op = next state
+    second = literal state
+
+    result = new abs.BinaryOperator op, result, second
+
+  result
+
+polynom = (state) ->
+  result = switch get state
+    when '+'
+      next state
+      term state
+    when '-'
+      next state
+      new abs.UnaryOperator '-', term state
+    else
+      term state
 
   while (get state) in '+-'
     op = next state
-    second = literal state
+    second = term state
 
     result = new abs.BinaryOperator op, result, second
 
